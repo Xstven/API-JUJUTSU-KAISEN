@@ -15,6 +15,12 @@ export function getPersonajes() {
 }
 
 export async function getPersonaje(id) {
+  try {
+    const res = await fetch(`${BASE}/${id}`).then((r) => r.json())
+    const p = res.data ?? res
+    if (p?.id) return normalizarDetalle(p)
+  } catch {
+  }
   const lista = await getPersonajes()
   return lista.find((p) => p.id === Number(id))
 }
@@ -59,5 +65,14 @@ function normalizar(p) {
     occupations: (p.occupations ?? []).map((o) => ({ occupation_name: o.occupation_name })),
     cursedTechniques: (p.cursedTechniques ?? []).map((t) => ({ technique_name: t.technique_name })),
     domainExpansion: p.domainExpansion ? { name: p.domainExpansion.name } : null,
+  }
+}
+
+function normalizarDetalle(p) {
+  return {
+    ...normalizar(p),
+    alias: p.alias ?? [],
+    status: p.status?.name ?? null,
+    relatives: p.relatives ?? [],
   }
 }
