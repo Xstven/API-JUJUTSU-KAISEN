@@ -7,3 +7,12 @@
   .c-lista-pokemon p:nth-child(2) { font-size: 0.95rem; text-align: center; }
   .c-lista-pokemon img { width: 90px; height: 90px; }
 }
+
+@media (min-width: 700px) {
+  .c-lista {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    max-width: 1000px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+}

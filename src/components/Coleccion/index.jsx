@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPersonajes } from '../../api';
+import { colorDe } from '../../temas';
 import './style.css';
 
 function Coleccion() {
@@ -59,6 +60,7 @@ function Coleccion() {
           <div
             key={`${p.id}-${indice}`}
             className={p.repetido ? 'coleccion-nuevo repetido' : 'coleccion-nuevo'}
+            style={{ '--acento': colorDe(p) }}
             onClick={() => navigate(`/personaje/${p.id}`)}
           >
             <p>{p.id}</p>
@@ -74,7 +76,8 @@ function Coleccion() {
           return (
             <div
               key={p.id}
-              className={capturado ? 'coleccion-pokemon capturado' : 'coleccion-pokemon'}
+              className={capturado ? 'coleccion-personaje capturado' : 'coleccion-personaje'}
+              style={{ '--acento': colorDe(p) }}
               onClick={() => capturado && navigate(`/personaje/${p.id}`)}
             >
               {capturado && p.image && (

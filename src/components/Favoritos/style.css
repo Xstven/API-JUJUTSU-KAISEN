@@ -3,7 +3,16 @@
   .c-filtro button { padding: 7px 14px; font-size: 0.85rem; }
   .c-buscador { margin: 12px auto; padding: 10px 16px; }
   .c-lista { gap: 10px; padding: 6px 10px 12px; }
-  .c-lista-pokemon { padding: 12px 8px; }
-  .c-lista-pokemon p:nth-child(2) { font-size: 0.95rem; text-align: center; }
-  .c-lista-pokemon img { width: 90px; height: 90px; }
+  .c-lista-personaje { padding: 12px 8px; }
+  .c-lista-personaje p:nth-child(2) { font-size: 0.95rem; text-align: center; }
+  .c-lista-personaje img { width: 90px; height: 90px; }
+}
+
+@media (min-width: 700px) {
+  .c-lista {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    max-width: 1000px;
+    margin: 0 auto;
+    gap: 20px;
+  }
 }

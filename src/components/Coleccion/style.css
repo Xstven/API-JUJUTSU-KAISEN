@@ -93,7 +93,7 @@
 .coleccion-nuevo {
   min-width: 0;
   padding: 12px 6px;
-  border: 1px solid var(--borde);
+  border: 1px solid color-mix(in srgb, var(--acento, var(--maldito)) 45%, var(--borde));
   border-radius: 16px;
   background: var(--superficie);
   box-shadow: var(--sombra);
@@ -110,8 +110,8 @@
 
 .coleccion-nuevo:hover {
   transform: translateY(-4px);
-  border-color: var(--infinito);
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+  border-color: var(--acento, var(--infinito));
+  box-shadow: 0 0 20px color-mix(in srgb, var(--acento, var(--infinito)) 50%, transparent);
 }
 
 .coleccion-nuevo.repetido {
@@ -141,7 +141,7 @@
   min-height: 72px;
   object-fit: cover;
   border-radius: 12px;
-  border: 1px solid var(--borde);
+  border: 1px solid var(--acento, var(--borde));
   transition: transform 0.25s;
 }
 
@@ -156,7 +156,7 @@
   padding-bottom: 24px;
 }
 
-.coleccion-pokemon {
+.coleccion-personaje {
   display: flex;
   aspect-ratio: 1;
   min-width: 0;
@@ -170,28 +170,28 @@
   font-size: 0.75rem;
 }
 
-.coleccion-pokemon p {
+.coleccion-personaje p {
   margin: 0;
 }
 
-.coleccion-pokemon.capturado {
-  border-color: var(--maldito);
-  background: rgba(124, 58, 237, 0.18);
-  color: #ddd6fe;
+.coleccion-personaje.capturado {
+  border-color: var(--acento, var(--maldito));
+  background: color-mix(in srgb, var(--acento, var(--maldito)) 20%, transparent);
+  color: #fff;
   font-weight: 700;
   cursor: pointer;
   touch-action: manipulation;
   transition: transform 0.15s, box-shadow 0.15s;
 }
 
-.coleccion-pokemon.capturado:hover {
+.coleccion-personaje.capturado:hover {
   position: relative;
   z-index: 1;
   transform: scale(1.12);
-  box-shadow: 0 0 14px rgba(124, 58, 237, 0.6);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--acento, var(--maldito)) 70%, transparent);
 }
 
-.coleccion-pokemon img {
+.coleccion-personaje img {
   width: 38px;
   height: 38px;
   object-fit: cover;
@@ -220,7 +220,7 @@
   }
 }
 
-.coleccion-pokemon p,
+.coleccion-personaje p,
 .coleccion-nuevo p {
   color: inherit;
 }

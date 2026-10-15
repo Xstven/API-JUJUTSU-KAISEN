@@ -1,6 +1,7 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from 'react'
 import { getPersonaje } from '../../api'
+import { colorDe } from '../../temas'
 import './style.css'
 
 function Personajes() {
@@ -37,13 +38,13 @@ function Personajes() {
         localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
     };
 
-    if (!data) return <p>Cargando...</p>;
+    if (!data) return <p className="c-estado">Cargando...</p>;
 
     const ocupaciones = data.occupations?.map(o => o.occupation_name).join(', ');
     const tecnicas = data.cursedTechniques?.map(t => t.technique_name).join(', ');
 
     return (
-        <div className="c-personaje">
+        <div className="c-personaje" style={{ '--acento': colorDe(data) }}>
             <button className="c-volver" onClick={volver} aria-label="Volver">←</button>
 
             <h1>{data.name}</h1>

@@ -70,59 +70,68 @@
   padding: 8px 16px 16px;
 }
 
-.c-lista-pokemon {
+.c-lista-personaje {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
   padding: 16px;
   background: var(--superficie);
-  border: 1px solid var(--borde);
+  border: 1px solid color-mix(in srgb, var(--acento, var(--maldito)) 45%, var(--borde));
   border-radius: 16px;
   box-shadow: var(--sombra);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
-.c-lista-pokemon:hover {
+.c-lista-personaje:hover {
   transform: translateY(-5px);
-  border-color: var(--maldito);
-  box-shadow: 0 0 22px rgba(124, 58, 237, 0.4);
+  border-color: var(--acento, var(--maldito));
+  box-shadow: 0 0 22px color-mix(in srgb, var(--acento, var(--maldito)) 45%, transparent);
 }
 
-.c-lista-pokemon p {
+.c-lista-personaje p {
   margin: 0;
 }
 
-.c-lista-pokemon p:first-child {
+.c-lista-personaje p:first-child {
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--texto-suave);
 }
 
-.c-lista-pokemon p:first-child::before {
+.c-lista-personaje p:first-child::before {
   content: "#";
 }
 
-.c-lista-pokemon p:nth-child(2) {
+.c-lista-personaje p:nth-child(2) {
   font-size: 1.1rem;
   font-weight: 600;
   text-transform: capitalize;
   color: var(--texto);
 }
 
-.c-lista-pokemon img {
+.c-lista-personaje img {
   width: 110px;
   height: 110px;
   margin-top: 6px;
   object-fit: cover;
   border-radius: 14px;
-  border: 1px solid var(--borde);
+  border: 1px solid var(--acento, var(--borde));
   transition: transform 0.3s;
 }
 
-.c-lista-pokemon:hover img {
+.c-lista-personaje:hover img {
   transform: scale(1.08);
+}
+
+@media (min-width: 700px) {
+  .c-lista {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    max-width: 1000px;
+    margin: 0 auto;
+    gap: 20px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -130,7 +139,7 @@
   .c-filtro button { padding: 7px 14px; font-size: 0.85rem; }
   .c-buscador { margin: 12px auto; padding: 10px 16px; }
   .c-lista { gap: 10px; padding: 6px 10px 12px; }
-  .c-lista-pokemon { padding: 12px 8px; }
-  .c-lista-pokemon p:nth-child(2) { font-size: 0.95rem; text-align: center; }
-  .c-lista-pokemon img { width: 90px; height: 90px; }
+  .c-lista-personaje { padding: 12px 8px; }
+  .c-lista-personaje p:nth-child(2) { font-size: 0.95rem; text-align: center; }
+  .c-lista-personaje img { width: 90px; height: 90px; }
 }

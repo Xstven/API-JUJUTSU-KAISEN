@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getPersonajes } from '../../api'
+import { colorDe } from '../../temas'
 import './style.css'
 
 const ORDEN = [
@@ -40,7 +41,7 @@ function Inicio() {
       )
     : porGrado
 
-  if (todos.length === 0) return <p>Cargando...</p>
+  if (todos.length === 0) return <p className="c-estado">Cargando...</p>
 
   return (
     <>
@@ -65,12 +66,13 @@ function Inicio() {
         className="c-buscador"
       />
 
-      {resultados.length === 0 && <p>No se encontraron personajes.</p>}
+      {resultados.length === 0 && <p className="c-estado">No se encontraron personajes.</p>}
 
       <div className="c-lista">
         {resultados.map((personaje) => (
           <div
-            className="c-lista-pokemon"
+            className="c-lista-personaje"
+            style={{ '--acento': colorDe(personaje) }}
             key={personaje.id}
             onClick={() => navigate(`/personaje/${personaje.id}`)}
           >

@@ -226,3 +226,13 @@ li {
         font-size: 0.75rem;
     }
 }
+
+.c-estado {
+    text-align: center;
+    padding: 40px 16px;
+    color: var(--texto-suave);
+}
+
+.c-titulo-pagina {
+    margin: 24px 0 0;
+}
