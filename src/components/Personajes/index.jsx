@@ -2,6 +2,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from 'react'
 import { getPersonaje } from '../../api'
 import { colorDe } from '../../temas'
+import { compartir } from '../../compartir'
 import './style.css'
 
 function Personajes() {
@@ -43,6 +44,11 @@ function Personajes() {
     const ocupaciones = data.occupations?.map(o => o.occupation_name).join(', ');
     const tecnicas = data.cursedTechniques?.map(t => t.technique_name).join(', ');
 
+    const compartirPersonaje = () =>
+        compartir(
+            `${data.name} · ${data.gradeName} — Jujutsu Kaisen\n${window.location.origin}/personaje/${data.id}`
+        );
+
     return (
         <div className="c-personaje" style={{ '--acento': colorDe(data) }}>
             <button className="c-volver" onClick={volver} aria-label="Volver">←</button>
@@ -65,9 +71,14 @@ function Personajes() {
             <p>Técnicas: {tecnicas || 'Ninguna'}</p>
             <p>Expansión de dominio: {data.domainExpansion?.name ?? 'No tiene'}</p>
 
-            <button className="c-fav" onClick={toggleFavorito}>
-                {esFavorito ? '❤️' : '🤍'}
-            </button>
+            <div className="c-acciones">
+                <button className="c-fav" onClick={toggleFavorito}>
+                    {esFavorito ? '❤️' : '🤍'}
+                </button>
+                <button className="c-compartir" onClick={compartirPersonaje}>
+                    Compartir
+                </button>
+            </div>
         </div>
     )
 }
