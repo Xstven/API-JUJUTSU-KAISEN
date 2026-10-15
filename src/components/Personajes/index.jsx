@@ -1,10 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from 'react'
 import { getPersonaje } from '../../api'
 import './style.css'
 
 function Personajes() {
     const { id } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
     const [data, setData] = useState(null);
     const [favoritos, setFavoritos] = useState(() => {
         try {
@@ -14,6 +16,9 @@ function Personajes() {
         }
     });
     const esFavorito = favoritos.some(p => p.id === data?.id);
+
+    // Si entró directo por link no hay historial, entonces va a Inicio
+    const volver = () => (location.key !== 'default' ? navigate(-1) : navigate('/'));
 
     useEffect(() => {
         getPersonaje(id)
@@ -38,7 +43,9 @@ function Personajes() {
     const tecnicas = data.cursedTechniques?.map(t => t.technique_name).join(', ');
 
     return (
-        <div>
+        <div className="c-personaje">
+            <button className="c-volver" onClick={volver} aria-label="Volver">←</button>
+
             <h1>{data.name}</h1>
             {data.image && (
                 <img
@@ -57,7 +64,7 @@ function Personajes() {
             <p>Técnicas: {tecnicas || 'Ninguna'}</p>
             <p>Expansión de dominio: {data.domainExpansion?.name ?? 'No tiene'}</p>
 
-            <button onClick={toggleFavorito}>
+            <button className="c-fav" onClick={toggleFavorito}>
                 {esFavorito ? '❤️' : '🤍'}
             </button>
         </div>

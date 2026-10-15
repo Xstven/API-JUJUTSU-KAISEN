@@ -1,108 +1,136 @@
-body {
-  margin: 0;
-  font-family: "Poppins", system-ui, sans-serif;
-  background: #f1f4f9;
-  color: #1f2937;
-  padding-bottom: 70px;
-}
-
 /* Filtros */
 .c-filtro {
   display: flex;
   gap: 8px;
   padding: 12px;
   overflow-x: auto;
-  background: #fff;
+  background: rgba(14, 14, 30, 0.95);
   position: sticky;
   top: 0;
   z-index: 10;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--borde);
+  box-shadow: var(--sombra);
 }
+
 .c-filtro button {
-  border: none;
+  border: 1px solid var(--borde);
   padding: 8px 18px;
   border-radius: 999px;
-  background: #e5e7eb;
-  color: #374151;
+  background: var(--superficie);
+  color: var(--texto-suave);
   font-weight: 600;
   text-transform: capitalize;
   cursor: pointer;
   white-space: nowrap;
-  transition: transform 0.15s, background 0.15s, color 0.15s;
-}
-.c-filtro button:hover {
-  background: #ef4444;
-  color: #fff;
-  transform: translateY(-2px);
-}
-.c-filtro button.activo {
-  background: #ef4444;
-  color: #fff;
+  transition: transform 0.15s, color 0.15s, border-color 0.15s;
 }
 
-/* Buscador */
+.c-filtro button:hover {
+  color: #fff;
+  border-color: var(--maldito);
+  transform: translateY(-2px);
+}
+
+.c-filtro button.activo {
+  background: var(--degradado);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 0 14px rgba(124, 58, 237, 0.6);
+}
+
 .c-buscador {
   display: block;
   box-sizing: border-box;
   width: min(600px, 92%);
   margin: 18px auto;
   padding: 12px 20px;
-  border: 2px solid transparent;
+  border: 2px solid var(--borde);
   border-radius: 999px;
-  background: #fff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  background: var(--superficie);
+  color: var(--texto);
+  box-shadow: var(--sombra);
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.2s;
-}
-.c-buscador:focus {
-  border-color: #ef4444;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* Lista en 2 columnas */
+.c-buscador::placeholder {
+  color: var(--texto-suave);
+}
+
+.c-buscador:focus {
+  border-color: var(--infinito);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+}
+
 .c-lista {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   padding: 8px 16px 16px;
 }
+
 .c-lista-pokemon {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
   padding: 16px;
-  background: #fff;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
   border-radius: 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--sombra);
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
+
 .c-lista-pokemon:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  border-color: var(--maldito);
+  box-shadow: 0 0 22px rgba(124, 58, 237, 0.4);
 }
+
 .c-lista-pokemon p {
   margin: 0;
 }
+
 .c-lista-pokemon p:first-child {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #9ca3af;
+  color: var(--texto-suave);
 }
+
 .c-lista-pokemon p:first-child::before {
   content: "#";
 }
+
 .c-lista-pokemon p:nth-child(2) {
   font-size: 1.1rem;
   font-weight: 600;
   text-transform: capitalize;
+  color: var(--texto);
 }
+
 .c-lista-pokemon img {
+  width: 110px;
   height: 110px;
   margin-top: 6px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid var(--borde);
   transition: transform 0.3s;
 }
+
 .c-lista-pokemon:hover img {
-  transform: scale(1.15) rotate(-3deg);
+  transform: scale(1.08);
+}
+
+@media (max-width: 600px) {
+  .c-filtro { padding: 10px 8px; gap: 6px; }
+  .c-filtro button { padding: 7px 14px; font-size: 0.85rem; }
+  .c-buscador { margin: 12px auto; padding: 10px 16px; }
+  .c-lista { gap: 10px; padding: 6px 10px 12px; }
+  .c-lista-pokemon { padding: 12px 8px; }
+  .c-lista-pokemon p:nth-child(2) { font-size: 0.95rem; text-align: center; }
+  .c-lista-pokemon img { width: 90px; height: 90px; }
 }

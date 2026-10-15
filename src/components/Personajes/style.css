@@ -1,84 +1,127 @@
-/* Tarjeta: el div que tiene h1 seguido de img */
-div:has(> h1 + img) {
+.c-personaje {
   position: relative;
   box-sizing: border-box;
   width: min(480px, calc(100% - 32px));
   margin: 24px auto 110px;
   padding: 28px 24px;
-  background: #fff;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
   border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 40px rgba(124, 58, 237, 0.25);
   text-align: center;
 }
 
-div:has(> h1 + img) > h1 {
-  margin: 0 0 8px;
-  font-size: 2rem;
+.c-volver {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--borde);
+  border-radius: 50%;
+  background: var(--superficie-2);
+  color: var(--texto);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.2s;
+}
+
+.c-volver:hover {
+  background: var(--degradado);
+  border-color: transparent;
+  transform: translateX(-3px);
+}
+
+.c-personaje > h1 {
+  margin: 36px 0 14px;
+  font-size: 1.9rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #ef4444;
+  background: var(--degradado);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-div:has(> h1 + img) > img {
+.c-personaje > img {
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 16px;
   width: 220px;
   max-width: 100%;
-  filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.2));
+  border-radius: 18px;
+  border: 1px solid var(--borde);
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.3);
   transition: transform 0.3s;
 }
-div:has(> h1 + img) > img:hover {
-  transform: scale(1.08) rotate(-3deg);
+
+.c-personaje > img:hover {
+  transform: scale(1.04);
 }
 
-/* Todos los párrafos como filas */
-div:has(> h1 + img) > p {
+.c-personaje > p {
   margin: 8px 0;
   padding: 10px 16px;
-  background: #f1f4f9;
+  background: var(--superficie-2);
   border-radius: 12px;
+  color: var(--texto);
   font-weight: 600;
 }
 
-/* 1er p: el número, arriba a la izquierda con # */
-div:has(> h1 + img) > p:nth-of-type(1) {
+.c-personaje > p:nth-of-type(1) {
   position: absolute;
-  top: 18px;
-  left: 22px;
+  top: 24px;
+  right: 22px;
   margin: 0;
   padding: 0;
   background: none;
-  color: #9ca3af;
+  color: var(--texto-suave);
   font-weight: 700;
 }
-div:has(> h1 + img) > p:nth-of-type(1)::before {
+
+.c-personaje > p:nth-of-type(1)::before {
   content: "#";
 }
 
-/* 2do p: altura y peso, estilo pastilla centrada */
-div:has(> h1 + img) > p:nth-of-type(2) {
+.c-personaje > p:nth-of-type(2) {
   display: inline-block;
-  margin: 14px 0 12px;
+  margin: 4px 0 12px;
   padding: 6px 16px;
+  border: 1px solid var(--maldito);
   border-radius: 999px;
-  background: #fee2e2;
-  color: #b91c1c;
+  background: rgba(124, 58, 237, 0.2);
+  color: #ddd6fe;
   font-size: 0.9rem;
 }
 
-/* Botón de favorito */
-div:has(> h1 + img) > button {
+.c-fav {
   display: block;
   margin: 20px auto 0;
   padding: 10px 28px;
-  border: none;
+  border: 1px solid rgba(239, 68, 68, 0.5);
   border-radius: 999px;
-  background: #fee2e2;
+  background: rgba(239, 68, 68, 0.15);
   font-size: 1.4rem;
   cursor: pointer;
   transition: transform 0.15s, background 0.2s;
 }
-div:has(> h1 + img) > button:hover {
-  background: #fecaca;
+
+.c-fav:hover {
+  background: rgba(239, 68, 68, 0.3);
   transform: scale(1.1);
 }
+
+.c-volver {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+@media (max-width: 600px) {
+  .c-personaje { width: calc(100% - 20px); margin: 14px auto 100px; padding: 22px 16px; border-radius: 20px; }
+  .c-personaje > h1 { font-size: 1.5rem; margin-top: 40px; }
+  .c-personaje > img { width: 180px; }
+}
+

@@ -1,44 +1,30 @@
-.c-menu {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-around;
-  padding: 14px 0;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.1);
-}
-
-.c-menu a {
-  color: #374151;
-  text-decoration: none;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 999px;
-  transition: background 0.2s, color 0.2s;
-}
-
-.c-menu a:hover {
-  background: #ef4444;
-  color: #fff;
-}
-
 :root {
-    --rojo: #e3350d;
-    --rojo-oscuro: #b8280a;
-    --fondo: #f0f2f5;
-    --tarjeta: #ffffff;
-    --texto: #222;
-    --texto-suave: #666;
-    --borde: #dcdfe4;
-    --sombra: 0 2px 8px rgba(0, 0, 0, 0.12);
+    color-scheme: dark;
+    --rojo: #7c3aed;      
+    --rojo-oscuro: #5b21b6;
+    --fondo: #0b0b16;
+    --tarjeta: #15152b;
+    --texto: #ecebff;
+    --texto-suave: #a9a8d1;
+    --borde: #2d2d5a;
+    --sombra: 0 6px 18px rgba(0, 0, 0, 0.45);
+
+    /* Nuevas */
+    --superficie: #15152b;
+    --superficie-2: #1f1f3d;
+    --maldito: #7c3aed;
+    --infinito: #38bdf8;        /* azul del Infinito de Gojo */
+    --sukuna: #ef4444;
+    --degradado: linear-gradient(135deg, var(--maldito), var(--infinito));
 }
 
 * {
     box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -46,11 +32,14 @@ body {
     min-height: 100vh;
     padding: 0 0 90px;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: var(--fondo);
+    background:
+        radial-gradient(circle at 15% 0%, rgba(124, 58, 237, 0.18), transparent 45%),
+        radial-gradient(circle at 85% 100%, rgba(56, 189, 248, 0.12), transparent 45%),
+        var(--fondo);
+    background-attachment: fixed;
     color: var(--texto);
 }
 
-/* Contenedor de cada página */
 .c-page {
     max-width: 1000px;
     margin: 0 auto;
@@ -61,6 +50,10 @@ h1 {
     margin: 0 0 25px;
     text-align: center;
     color: var(--rojo);
+    background: var(--degradado);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-size: 2rem;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -76,22 +69,40 @@ p {
     color: var(--texto-suave);
 }
 
-/* Menú (solo los links, .c-menu no se toca) */
+.c-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    background: rgba(14, 14, 30, 0.92);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--borde);
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.5);
+}
+
 .c-menu a {
-    color: var(--texto);
+    color: var(--texto-suave);
     text-decoration: none;
     font-weight: bold;
-    padding: 6px 12px;
-    border-radius: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
     transition: background 0.2s, color 0.2s;
 }
 
 .c-menu a:hover {
-    background-color: var(--rojo);
+    color: var(--texto);
+}
+
+.c-menu a.active {
+    background: var(--degradado);
     color: #fff;
 }
 
-/* Grilla y tarjetas (para Coleccion, Favoritos, Inicio) */
 .c-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -105,12 +116,13 @@ p {
     padding: 15px;
     text-align: center;
     box-shadow: var(--sombra);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
 .c-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+    border-color: var(--maldito);
+    box-shadow: 0 0 22px rgba(124, 58, 237, 0.4);
 }
 
 .c-card img {
@@ -123,8 +135,7 @@ p {
     margin: 10px 0 5px;
 }
 
-/* Botones */
-button {
+:where(button) {
     background-color: var(--rojo);
     color: #fff;
     border: none;
@@ -136,29 +147,29 @@ button {
     transition: background 0.2s, transform 0.1s;
 }
 
-button:hover {
+:where(button:hover) {
     background-color: var(--rojo-oscuro);
 }
 
-button:active {
+:where(button:active) {
     transform: scale(0.97);
 }
 
-/* Formularios (Usuario) */
-input, select, textarea {
+:where(input, select, textarea) {
     width: 100%;
     padding: 10px 12px;
     margin-bottom: 15px;
     border: 1px solid var(--borde);
     border-radius: 8px;
     font-size: 1rem;
-    background-color: #fff;
+    background-color: var(--superficie-2);
+    color: var(--texto);
 }
 
 input:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: var(--rojo);
-    box-shadow: 0 0 0 3px rgba(227, 53, 13, 0.2);
+    border-color: var(--infinito);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
 }
 
 label {
@@ -171,12 +182,12 @@ label {
     max-width: 400px;
     margin: 0 auto;
     background-color: var(--tarjeta);
+    border: 1px solid var(--borde);
     padding: 25px;
     border-radius: 12px;
     box-shadow: var(--sombra);
 }
 
-/* Listas simples */
 ul {
     padding-left: 20px;
 }
@@ -185,8 +196,11 @@ li {
     margin-bottom: 8px;
 }
 
-/* Celulares */
 @media (max-width: 600px) {
+    body {
+        padding-bottom: 80px;
+    }
+
     .c-page {
         padding: 20px 12px;
     }
@@ -198,5 +212,17 @@ li {
     .c-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
+    }
+
+    .c-menu a {
+        padding: 8px 9px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .c-menu a {
+        padding: 7px 6px;
+        font-size: 0.75rem;
     }
 }
