@@ -24,7 +24,7 @@ function Personajes() {
 
     useEffect(() => {
         getPersonaje(id)
-            .then(setData)
+            .then((p) => setData(p ?? false))
             .catch(error => console.error("Error:", error));
     }, [id]);
 
@@ -39,6 +39,7 @@ function Personajes() {
         localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
     };
 
+    if (data === false) return <p className="c-estado">No se encontró el personaje.</p>;
     if (!data) return <p className="c-estado">Cargando...</p>;
 
     const ocupaciones = data.occupations?.map(o => o.occupation_name).join(', ');
@@ -70,6 +71,8 @@ function Personajes() {
             <p>Ocupación: {ocupaciones || 'Ninguna'}</p>
             <p>Técnicas: {tecnicas || 'Ninguna'}</p>
             <p>Expansión de dominio: {data.domainExpansion?.name ?? 'No tiene'}</p>
+            <p>Estado: {{ Alive: 'Vivo', Dead: 'Muerto' }[data.status] ?? data.status ?? 'Desconocido'}</p>
+            {data.alias?.length > 0 && <p>Alias: {data.alias.slice(0, 3).join(', ')}</p>}
 
             <div className="c-acciones">
                 <button className="c-fav" onClick={toggleFavorito}>

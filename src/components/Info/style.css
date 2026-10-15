@@ -1,18 +1,189 @@
-@media (max-width: 600px) {
-  .c-filtro { padding: 10px 8px; gap: 6px; }
-  .c-filtro button { padding: 7px 14px; font-size: 0.85rem; }
-  .c-buscador { margin: 12px auto; padding: 10px 16px; }
-  .c-lista { gap: 10px; padding: 6px 10px 12px; }
-  .c-lista-pokemon { padding: 12px 8px; }
-  .c-lista-pokemon p:nth-child(2) { font-size: 0.95rem; text-align: center; }
-  .c-lista-pokemon img { width: 90px; height: 90px; }
+.info {
+  max-width: 560px;
 }
 
-@media (min-width: 700px) {
-  .c-lista {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    max-width: 1000px;
-    margin: 0 auto;
-    gap: 20px;
-  }
+.info-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Portada */
+.info-hero {
+  width: min(420px, 100%);
+  margin: 0 auto 22px;
+  overflow: hidden;
+  border: 1px solid var(--maldito);
+  border-radius: 22px;
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.45), 0 0 90px rgba(239, 68, 68, 0.15);
+}
+
+.info-portada {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Datos destacados */
+.info-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.info-stat {
+  padding: 14px 6px;
+  text-align: center;
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  box-shadow: var(--sombra);
+}
+
+.info-stat strong {
+  display: block;
+  font-size: 1.7rem;
+  line-height: 1.1;
+  background: var(--degradado);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.info-stat span {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+/* Títulos de sección */
+.info-titulo {
+  margin: 28px 0 14px;
+  padding-left: 12px;
+  border-left: 4px solid var(--maldito);
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--texto);
+}
+
+/* Tarjetas numeradas */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.info-card {
+  position: relative;
+  overflow: hidden;
+  padding: 16px 14px;
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  box-shadow: var(--sombra);
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--maldito);
+  box-shadow: 0 0 22px rgba(124, 58, 237, 0.4);
+}
+
+.info-card::before {
+  content: attr(data-n);
+  position: absolute;
+  top: -4px;
+  right: 10px;
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: rgba(124, 58, 237, 0.2);
+}
+
+.info-card h3 {
+  position: relative;
+  margin: 0 0 6px;
+  color: var(--infinito);
+  font-size: 1.05rem;
+}
+
+.info-card p {
+  position: relative;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--texto-suave);
+}
+
+/* Escalera de grados */
+.info-escala {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.info-escala li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(42% + var(--i) * 8.3%);
+  height: 38px;
+  margin: 0 0 8px;
+  padding: 0 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--sukuna) var(--p), var(--maldito));
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--sukuna) var(--p), transparent);
+}
+
+.info-escala b {
+  margin-left: 10px;
+  opacity: 0.7;
+}
+
+/* Créditos */
+.info-creditos {
+  overflow: hidden;
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  box-shadow: var(--sombra);
+}
+
+.info-creditos div {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.info-creditos div:last-child {
+  border-bottom: 0;
+}
+
+.info-creditos span {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--infinito);
+}
+
+.info-creditos p {
+  margin: 4px 0 0;
+  color: var(--texto);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .info-stat strong { font-size: 1.4rem; }
+  .info-escala li { font-size: 0.82rem; height: 36px; }
 }

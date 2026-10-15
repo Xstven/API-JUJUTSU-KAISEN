@@ -254,3 +254,17 @@ li {
         padding: 8px 22px;
     }
 }
+
+@media (max-width: 600px) {
+    .c-menu a {
+        padding: 8px 5px;
+        font-size: 0.78rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .c-menu a {
+        padding: 7px 3px;
+        font-size: 0.7rem;
+    }
+}

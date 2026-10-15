@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-do
 import Inicio from './components/inicio'
 import Coleccion from './components/Coleccion'
 import Favoritos from './components/Favoritos'
+import Duelo from './components/Duelo'
 import Info from './components/Info'
 import Usuario from './components/Usuario'
 import Personajes from './components/Personajes'
@@ -15,6 +16,7 @@ function App() {
         <NavLink to="/" end>Inicio</NavLink>
         <NavLink to="/coleccion">Coleccion</NavLink>
         <NavLink to="/favoritos">Favoritos</NavLink>
+        <NavLink to="/duelo">Duelo</NavLink>
         <NavLink to="/info">Info</NavLink>
         <NavLink to="/usuario">Usuarios</NavLink>
       </nav>
@@ -22,9 +24,10 @@ function App() {
         <Route path="/" element={<Inicio />} />
         <Route path="/coleccion" element={<Coleccion />} />
         <Route path="/favoritos" element={<Favoritos />} />
+        <Route path="/duelo" element={<Duelo />} />
         <Route path="/info" element={<Info />} />
         <Route path="/usuario" element={<Usuario />} />
-        <Route path="/personaje/:id" element={<Personajes />} />
+        <Route path="personaje/:id" element={<Personajes />} />
       </Routes>
     </Router>
   )
