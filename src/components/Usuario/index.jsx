@@ -25,7 +25,10 @@ function Usuario() {
     <main className="c-page">
       <h1>Usuario</h1>
 
-      <div className="c-grid">
+      <div
+        className="c-grid"
+        style={{ gridTemplateColumns: 'repeat(2, minmax(0, 180px))', justifyContent: 'center' }}
+      >
         <div className="c-card">
           <h3>{capturados}</h3>
           <p>Capturados</p>
