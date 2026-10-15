@@ -1,0 +1,84 @@
+/* Tarjeta: el div que tiene h1 seguido de img */
+div:has(> h1 + img) {
+  position: relative;
+  box-sizing: border-box;
+  width: min(480px, calc(100% - 32px));
+  margin: 24px auto 110px;
+  padding: 28px 24px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+div:has(> h1 + img) > h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ef4444;
+}
+
+div:has(> h1 + img) > img {
+  display: block;
+  margin: 0 auto;
+  width: 220px;
+  max-width: 100%;
+  filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s;
+}
+div:has(> h1 + img) > img:hover {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+/* Todos los párrafos como filas */
+div:has(> h1 + img) > p {
+  margin: 8px 0;
+  padding: 10px 16px;
+  background: #f1f4f9;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+/* 1er p: el número, arriba a la izquierda con # */
+div:has(> h1 + img) > p:nth-of-type(1) {
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: #9ca3af;
+  font-weight: 700;
+}
+div:has(> h1 + img) > p:nth-of-type(1)::before {
+  content: "#";
+}
+
+/* 2do p: altura y peso, estilo pastilla centrada */
+div:has(> h1 + img) > p:nth-of-type(2) {
+  display: inline-block;
+  margin: 14px 0 12px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+/* Botón de favorito */
+div:has(> h1 + img) > button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 28px;
+  border: none;
+  border-radius: 999px;
+  background: #fee2e2;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.2s;
+}
+div:has(> h1 + img) > button:hover {
+  background: #fecaca;
+  transform: scale(1.1);
+}
