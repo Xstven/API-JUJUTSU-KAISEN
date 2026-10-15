@@ -9,12 +9,13 @@ const POR_GRADO = {
   'special grade': '#facc15',
 }
 
+// Solo los personajes principales tienen color propio
 const POR_NOMBRE = [
   ['gojo', '#38bdf8'],
   ['sukuna', '#ef4444'],
   ['megumi', '#14b8a6'],
   ['itadori', '#fb7185'],
-  ['nobara', '#f472b6'],
+  ['nobara', '#fb923c'],
 ]
 
 export const colorDe = (p) => {

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-dom'
 
 import Inicio from './components/inicio'
 import Coleccion from './components/Coleccion'
@@ -12,11 +12,11 @@ function App() {
   return (
     <Router>
       <nav className="c-menu">
-        <Link to="/">Inicio</Link>
-        <Link to="/coleccion">Coleccion</Link>
-        <Link to="/favoritos">Favoritos</Link>
-        <Link to="/info">Info</Link>
-        <Link to="/usuario">Usuarios</Link>
+        <NavLink to="/" end>Inicio</NavLink>
+        <NavLink to="/coleccion">Coleccion</NavLink>
+        <NavLink to="/favoritos">Favoritos</NavLink>
+        <NavLink to="/info">Info</NavLink>
+        <NavLink to="/usuario">Usuarios</NavLink>
       </nav>
       <Routes>
         <Route path="/" element={<Inicio />} />
@@ -24,7 +24,7 @@ function App() {
         <Route path="/favoritos" element={<Favoritos />} />
         <Route path="/info" element={<Info />} />
         <Route path="/usuario" element={<Usuario />} />
-        <Route path="personaje/:id" element={<Personajes />} />
+        <Route path="/personaje/:id" element={<Personajes />} />
       </Routes>
     </Router>
   )

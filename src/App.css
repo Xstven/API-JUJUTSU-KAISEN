@@ -236,3 +236,21 @@ li {
 .c-titulo-pagina {
     margin: 24px 0 0;
 }
+
+@media (min-width: 700px) {
+    .c-menu {
+        left: 50%;
+        right: auto;
+        bottom: 16px;
+        transform: translateX(-50%);
+        width: max-content;
+        gap: 8px;
+        padding: 8px 12px;
+        border: 1px solid var(--borde);
+        border-radius: 999px;
+    }
+
+    .c-menu a {
+        padding: 8px 22px;
+    }
+}
