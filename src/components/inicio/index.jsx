@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getPersonajes } from '../../api'
-import { colorDe } from '../../temas'
 import './style.css'
 
 const ORDEN = [
@@ -18,12 +17,16 @@ function Inicio() {
   const [todos, setTodos] = useState([])
   const [busqueda, setBusqueda] = useState('')
   const [grado, setGrado] = useState('All')
+  const [error, setError] = useState(false) // 1) estado de error
   const navigate = useNavigate()
 
   useEffect(() => {
     getPersonajes()
       .then(setTodos)
-      .catch((error) => console.error('Error:', error))
+      .catch((e) => {
+        console.error('Error:', e)
+        setError(true) 
+      })
   }, [])
 
   const grados = [
@@ -41,7 +44,16 @@ function Inicio() {
       )
     : porGrado
 
-  if (todos.length === 0) return <p className="c-estado">Cargando...</p>
+  if (error) {
+    return (
+      <div className="c-estado">
+        <p>No se pudo cargar la información. Revisa tu conexión.</p>
+        <button onClick={() => window.location.reload()}>Reintentar</button>
+      </div>
+    )
+  }
+
+  if (todos.length === 0) return <p>Cargando...</p>
 
   return (
     <>
@@ -66,13 +78,12 @@ function Inicio() {
         className="c-buscador"
       />
 
-      {resultados.length === 0 && <p className="c-estado">No se encontraron personajes.</p>}
+      {resultados.length === 0 && <p>No se encontraron personajes.</p>}
 
       <div className="c-lista">
         {resultados.map((personaje) => (
           <div
-            className="c-lista-personaje"
-            style={{ '--acento': colorDe(personaje) }}
+            className="c-lista-pokemon"
             key={personaje.id}
             onClick={() => navigate(`/personaje/${personaje.id}`)}
           >
