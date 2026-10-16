@@ -1,27 +1,24 @@
-const POR_GRADO = {
-  'sin grado': '#94a3b8',
-  'grade 4': '#22c55e',
-  'grade 3': '#06b6d4',
-  'grade 2': '#3b82f6',
-  'semi-grade 1': '#8b5cf6',
-  'grade 1': '#d946ef',
-  'semi-special grade': '#f97316',
-  'special grade': '#facc15',
+const POR_ESTADO = {
+  alive: '#22c55e',
+  deceased: '#64748b',
+  unknown: '#f59e0b',
 }
 
-// Solo los personajes principales tienen color propio
 const POR_NOMBRE = [
-  ['gojo', '#38bdf8'],
-  ['sukuna', '#ef4444'],
-  ['megumi', '#14b8a6'],
-  ['itadori', '#fb7185'],
-  ['nobara', '#fb923c'],
+  ['eren', '#14b8a6'],
+  ['mikasa', '#ef4444'],
+  ['armin', '#38bdf8'],
+  ['levi', '#cbd5e1'],
+  ['erwin', '#eab308'],
+  ['hange', '#a855f7'],
+  ['reiner', '#b45309'],
+  ['annie', '#f0abfc'],
 ]
 
 export const colorDe = (p) => {
-  if (!p) return '#7c3aed'
+  if (!p) return '#5f7a45'
   const nombre = (p.name || '').toLowerCase()
   const propio = POR_NOMBRE.find(([clave]) => nombre.includes(clave))
   if (propio) return propio[1]
-  return POR_GRADO[(p.gradeName || '').toLowerCase()] || '#7c3aed'
+  return POR_ESTADO[(p.gradeName || '').toLowerCase()] || '#5f7a45'
 }

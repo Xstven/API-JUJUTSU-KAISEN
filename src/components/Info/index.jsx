@@ -1,28 +1,27 @@
 import { useEffect, useState } from 'react'
-import { getPersonajes } from '../../api'
-import portada from '../../assets/api.jpg'
+import { getPersonajes, getTitanes } from '../../api'
+import portada from '../../assets/aot.jpg'
 import './style.css'
 
-const GRADOS = [
-  'Sin grado', 'Grade 4', 'Grade 3', 'Grade 2',
-  'Semi-Grade 1', 'Grade 1', 'Semi-Special Grade', 'Special Grade',
-]
-
 const SECCIONES = [
-  { titulo: 'Inicio', texto: 'Lista de personajes con filtro por grado y buscador desde 3 letras.' },
-  { titulo: 'Detalle', texto: 'Ficha completa: grado, técnicas, expansión de dominio, estado y alias.' },
+  { titulo: 'Inicio', texto: 'Lista de personajes con filtro por estado, buscador desde 3 letras y los titanes aparte.' },
+  { titulo: 'Detalle', texto: 'Ficha del personaje: estado, especie, edad, altura, roles, grupos y alias.' },
   { titulo: 'Favoritos', texto: 'Guarda con el corazón a los personajes que más te gustan.' },
   { titulo: 'Colección', texto: 'Consigue 4 personajes al azar y completa tu álbum.' },
-  { titulo: 'Duelo', texto: 'Enfrenta a dos personajes y mira quién gana según su poder.' },
+  { titulo: 'Duelo', texto: 'Enfrenta a dos titanes y mira quién gana según sus estadísticas.' },
 ]
 
 function Info() {
   const [total, setTotal] = useState(null)
+  const [titanes, setTitanes] = useState([])
 
   useEffect(() => {
     getPersonajes()
       .then((lista) => setTotal(lista.length))
       .catch(() => setTotal(null))
+    getTitanes()
+      .then(setTitanes)
+      .catch(() => setTitanes([]))
   }, [])
 
   return (
@@ -33,7 +32,7 @@ function Info() {
         <img
           className="info-portada"
           src={portada}
-          alt="Cursed Energy API, información de personajes de Jujutsu Kaisen"
+          alt="Attack on Titan API, información de personajes y titanes de Attack on Titan"
         />
       </header>
 
@@ -43,8 +42,8 @@ function Info() {
           <span>Personajes</span>
         </div>
         <div className="info-stat">
-          <strong>{GRADOS.length}</strong>
-          <span>Grados</span>
+          <strong>{titanes.length || '...'}</strong>
+          <span>Titanes</span>
         </div>
         <div className="info-stat">
           <strong>6</strong>
@@ -62,32 +61,19 @@ function Info() {
         ))}
       </section>
 
-      <h2 className="info-titulo">Escala de grados</h2>
-      <ol className="info-escala">
-        {GRADOS.map((g, i) => (
-          <li
-            key={g}
-            style={{ '--i': i, '--p': `${Math.round((i / (GRADOS.length - 1)) * 100)}%` }}
-          >
-            <span>{g}</span>
-            <b>{i + 1}</b>
-          </li>
-        ))}
-      </ol>
-
       <h2 className="info-titulo">Créditos</h2>
       <section className="info-creditos">
         <div>
           <span>API</span>
-          <p>Cursed Energy API · jujutsukaisenapi.site</p>
+          <p>Attack on Titan API · attackontitanapi.com</p>
         </div>
         <div>
-          <span>Autor de la API</span>
-          <p>Brayan Steven Largo Ramirez · github.com/Xstven</p>
+          <span>Estadísticas del Duelo</span>
+          <p>Son una valoración propia del autor de la app según la serie (fuerza, defensa, velocidad y habilidad).</p>
         </div>
         <div>
           <span>Serie</span>
-          <p>Jujutsu Kaisen, obra de Gege Akutami. Esta app es un proyecto académico y no tiene relación oficial con la serie.</p>
+          <p>Attack on Titan (Shingeki no Kyojin). </p>
         </div>
       </section>
     </div>

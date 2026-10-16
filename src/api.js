@@ -1,5 +1,5 @@
-const BASE = 'https://data.jujutsukaisenapi.site/api/v1/characters'
-const CLAVE = 'jjkPersonajes_v2'
+const BASE = 'https://api.attackontitanapi.com/characters'
+const CLAVE = 'aotPersonajes_v1'
 const VIGENCIA = 7 * 24 * 60 * 60 * 1000 // 7 días
 const SIMULTANEAS = 3
 const REINTENTOS = 3
@@ -39,7 +39,7 @@ export async function getPersonaje(id) {
   try {
     const res = await pedir(`${BASE}/${id}`)
     const p = res.data ?? res
-    if (p?.id) return normalizarDetalle(p)
+    if (p?.id) return normalizar(p)
   } catch {
   }
   const lista = await getPersonajes()
@@ -61,8 +61,7 @@ async function cargar() {
 
   try {
     const primera = await pedirPagina(1)
-    const meta = primera.meta ?? primera
-    const ultima = meta.last_page ?? Math.ceil((meta.total ?? 0) / (meta.per_page ?? 20))
+    const ultima = primera.info?.pages ?? 1
 
     const paginas = [primera]
     const restantes = Array.from({ length: Math.max(ultima - 1, 0) }, (_, i) => i + 2)
@@ -73,9 +72,11 @@ async function cargar() {
     }
 
     const lista = paginas
-      .flatMap((r) => r.data ?? [])
+      .flatMap((r) => r.results ?? [])
       .map(normalizar)
       .sort((a, b) => a.id - b.id)
+
+    if (!lista.length) throw new Error('La API no devolvió personajes')
 
     try {
       localStorage.setItem(CLAVE, JSON.stringify({ fecha: Date.now(), lista }))
@@ -88,27 +89,94 @@ async function cargar() {
   }
 }
 
+// La API a veces manda un texto, a veces una lista; esto lo deja siempre como lista
+function aLista(valor) {
+  if (valor == null || valor === '') return []
+  return Array.isArray(valor) ? valor : [valor]
+}
+
 function normalizar(p) {
+  const especies = aLista(p.species)
+  const ocupaciones = aLista(p.occupation)
   return {
     id: p.id,
-    image: p.image ?? p.domainExpansion?.image ?? null,
-    name: p.name,
-    gradeName: p.grade?.name ?? 'Sin grado',
-    species: p.species ? { species_name: p.species.species_name } : null,
-    age: p.age,
-    height: p.height,
-    birthday: p.birthday,
-    occupations: (p.occupations ?? []).map((o) => ({ occupation_name: o.occupation_name })),
-    cursedTechniques: (p.cursedTechniques ?? []).map((t) => ({ technique_name: t.technique_name })),
-    domainExpansion: p.domainExpansion ? { name: p.domainExpansion.name } : null,
+    image: p.img ?? null,
+    name: p.name ?? 'Sin nombre',
+    // gradeName ahora trae el estado (Alive, Deceased, Unknown), sirve para el filtro
+    gradeName: p.status ?? 'Unknown',
+    species: especies.length ? { species_name: especies.join(', ') } : null,
+    age: p.age ?? null,
+    height: p.height ?? null,
+    birthday: null,
+    occupations: ocupaciones.map((o) => ({ occupation_name: String(o) })),
+    alias: aLista(p.alias),
+    status: p.status ?? null,
+    relatives: p.relatives ?? [],
+
+    // Campos nuevos de Attack on Titan
+    gender: p.gender ?? null,
+    residence: p.residence ?? null,
+    birthplace: p.birthplace ?? null,
+    roles: aLista(p.roles),
+    groups: p.groups ?? [],
+
+    // Campos de JJK que esta API no tiene (vacíos para que los componentes no se rompan)
+    cursedTechniques: [],
+    domainExpansion: null,
   }
 }
 
-function normalizarDetalle(p) {
-  return {
-    ...normalizar(p),
-    alias: p.alias ?? [],
-    status: p.status?.name ?? null,
-    relatives: p.relatives ?? [],
+// ---------- Titanes (para el Duelo) ----------
+const URL_TITANES = 'https://api.attackontitanapi.com/titans'
+
+let cacheTitanes = null
+
+export function getTitanes() {
+  if (cacheTitanes) return cacheTitanes
+  cacheTitanes = cargarTitanes().catch((error) => {
+    cacheTitanes = null
+    throw error
+  })
+  return cacheTitanes
+}
+
+const idDeUrl = (url) => {
+  const m = String(url ?? '').match(/(\d+)\/?$/)
+  return m ? Number(m[1]) : null
+}
+
+async function cargarTitanes() {
+  const res = await pedir(URL_TITANES)
+  const crudos = res.results ?? []
+  if (!crudos.length) throw new Error('La API no devolvió titanes')
+
+  // Los portadores vienen como links a /characters/ID; se les pone nombre y foto
+  // con la lista de personajes. Si esa lista falla, el titán igual carga.
+  let personajes = []
+  try {
+    personajes = await getPersonajes()
+  } catch {
   }
+  const porId = new Map(personajes.map((p) => [p.id, p]))
+  const persona = (url) => {
+    const id = idDeUrl(url)
+    if (id == null) return null
+    const p = porId.get(id)
+    return { id, name: p?.name ?? `Personaje ${id}`, image: p?.image ?? null }
+  }
+
+  return crudos.map((t) => {
+    const altura = parseFloat(String(t.height ?? '').replace(/,/g, ''))
+    return {
+      id: t.id,
+      name: t.name ?? 'Titán',
+      image: t.img ?? null,
+      height: t.height ?? null,
+      alturaMetros: Number.isFinite(altura) ? altura : null,
+      abilities: aLista(t.abilities),
+      allegiance: t.allegiance ?? null,
+      herederoActual: persona(t.current_inheritor),
+      herederosAnteriores: aLista(t.former_inheritors).map((u) => persona(u)).filter(Boolean),
+    }
+  })
 }

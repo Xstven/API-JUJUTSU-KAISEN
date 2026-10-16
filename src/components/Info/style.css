@@ -11,14 +11,13 @@
   white-space: nowrap;
 }
 
-/* Portada */
 .info-hero {
   width: min(420px, 100%);
   margin: 0 auto 22px;
   overflow: hidden;
   border: 1px solid var(--maldito);
   border-radius: 22px;
-  box-shadow: 0 0 40px rgba(124, 58, 237, 0.45), 0 0 90px rgba(239, 68, 68, 0.15);
+  box-shadow: 0 0 40px rgba(95, 122, 69, 0.45), 0 0 90px rgba(155, 44, 44, 0.15);
 }
 
 .info-portada {
@@ -27,7 +26,6 @@
   height: auto;
 }
 
-/* Datos destacados */
 .info-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -61,7 +59,6 @@
   color: var(--texto-suave);
 }
 
-/* Títulos de sección */
 .info-titulo {
   margin: 28px 0 14px;
   padding-left: 12px;
@@ -72,7 +69,6 @@
   color: var(--texto);
 }
 
-/* Tarjetas numeradas */
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -92,8 +88,8 @@
 
 .info-card:hover {
   transform: translateY(-4px);
-  border-color: var(--maldito);
-  box-shadow: 0 0 22px rgba(124, 58, 237, 0.4);
+  border-color: var(--infinito);
+  box-shadow: 0 0 22px rgba(201, 162, 39, 0.35);
 }
 
 .info-card::before {
@@ -103,7 +99,7 @@
   right: 10px;
   font-size: 3.2rem;
   font-weight: 800;
-  color: rgba(124, 58, 237, 0.2);
+  color: rgba(95, 122, 69, 0.25);
 }
 
 .info-card h3 {
@@ -121,7 +117,6 @@
   color: var(--texto-suave);
 }
 
-/* Escalera de grados */
 .info-escala {
   margin: 0;
   padding: 0;
@@ -151,7 +146,6 @@
   opacity: 0.7;
 }
 
-/* Créditos */
 .info-creditos {
   overflow: hidden;
   background: var(--tarjeta);

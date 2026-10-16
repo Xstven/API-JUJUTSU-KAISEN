@@ -5,6 +5,11 @@ import { colorDe } from '../../temas'
 import { compartir } from '../../compartir'
 import './style.css'
 
+const ESTADOS = { Alive: 'Vivo', Deceased: 'Fallecido', Unknown: 'Desconocido' }
+const GENEROS = { Male: 'Masculino', Female: 'Femenino' }
+
+const nombreDe = (x) => (typeof x === 'string' ? x : x?.name ?? '')
+
 function Personajes() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -19,7 +24,6 @@ function Personajes() {
     });
     const esFavorito = favoritos.some(p => p.id === data?.id);
 
-    // Si entró directo por link no hay historial, entonces va a Inicio
     const volver = () => (location.key !== 'default' ? navigate(-1) : navigate('/'));
 
     useEffect(() => {
@@ -42,12 +46,15 @@ function Personajes() {
     if (data === false) return <p className="c-estado">No se encontró el personaje.</p>;
     if (!data) return <p className="c-estado">Cargando...</p>;
 
+    const estado = ESTADOS[data.status] ?? ESTADOS[data.gradeName] ?? data.status ?? 'Desconocido'
+    const genero = GENEROS[data.gender] ?? data.gender
     const ocupaciones = data.occupations?.map(o => o.occupation_name).join(', ');
-    const tecnicas = data.cursedTechniques?.map(t => t.technique_name).join(', ');
+    const roles = data.roles?.map(nombreDe).filter(Boolean).join(', ');
+    const grupos = data.groups?.map(nombreDe).filter(Boolean).join(', ');
 
     const compartirPersonaje = () =>
         compartir(
-            `${data.name} · ${data.gradeName} — Jujutsu Kaisen\n${window.location.origin}/personaje/${data.id}`
+            `${data.name} · ${estado} — Attack on Titan\n${window.location.origin}/personaje/${data.id}`
         );
 
     return (
@@ -64,14 +71,15 @@ function Personajes() {
             )}
 
             <p>{data.id}</p>
-            <p>{data.gradeName} · {data.species?.species_name ?? 'Desconocido'}</p>
+            <p>{estado} · {data.species?.species_name ?? 'Desconocido'}</p>
 
             <p>Edad: {data.age ?? '?'} / Altura: {data.height ?? '?'}</p>
-            <p>Cumpleaños: {data.birthday ?? '?'}</p>
-            <p>Ocupación: {ocupaciones || 'Ninguna'}</p>
-            <p>Técnicas: {tecnicas || 'Ninguna'}</p>
-            <p>Expansión de dominio: {data.domainExpansion?.name ?? 'No tiene'}</p>
-            <p>Estado: {{ Alive: 'Vivo', Dead: 'Muerto' }[data.status] ?? data.status ?? 'Desconocido'}</p>
+            {genero && <p>Género: {genero}</p>}
+            {data.birthplace && <p>Lugar de nacimiento: {data.birthplace}</p>}
+            {data.residence && <p>Residencia: {data.residence}</p>}
+            {ocupaciones && <p>Ocupación: {ocupaciones}</p>}
+            {roles && <p>Roles: {roles}</p>}
+            {grupos && <p>Grupos: {grupos}</p>}
             {data.alias?.length > 0 && <p>Alias: {data.alias.slice(0, 3).join(', ')}</p>}
 
             <div className="c-acciones">

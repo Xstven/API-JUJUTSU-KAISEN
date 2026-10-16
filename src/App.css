@@ -1,20 +1,19 @@
 :root {
     color-scheme: dark;
-    --rojo: #7c3aed;      
-    --rojo-oscuro: #5b21b6;
-    --fondo: #0b0b16;
-    --tarjeta: #15152b;
-    --texto: #ecebff;
-    --texto-suave: #a9a8d1;
-    --borde: #2d2d5a;
+    --rojo: #5f7a45;
+    --rojo-oscuro: #435832;
+    --fondo: #12140f;
+    --tarjeta: #1e2418;
+    --texto: #e8e2d0;
+    --texto-suave: #a8a58f;
+    --borde: #3a4430;
     --sombra: 0 6px 18px rgba(0, 0, 0, 0.45);
 
-    /* Nuevas */
-    --superficie: #15152b;
-    --superficie-2: #1f1f3d;
-    --maldito: #7c3aed;
-    --infinito: #38bdf8;        /* azul del Infinito de Gojo */
-    --sukuna: #ef4444;
+    --superficie: #1e2418;
+    --superficie-2: #283020;
+    --maldito: #5f7a45;
+    --infinito: #c9a227;
+    --sukuna: #9b2c2c;
     --degradado: linear-gradient(135deg, var(--maldito), var(--infinito));
 }
 
@@ -33,8 +32,8 @@ body {
     padding: 0 0 90px;
     font-family: Arial, Helvetica, sans-serif;
     background:
-        radial-gradient(circle at 15% 0%, rgba(124, 58, 237, 0.18), transparent 45%),
-        radial-gradient(circle at 85% 100%, rgba(56, 189, 248, 0.12), transparent 45%),
+        radial-gradient(circle at 15% 0%, rgba(95, 122, 69, 0.20), transparent 45%),
+        radial-gradient(circle at 85% 100%, rgba(201, 162, 39, 0.10), transparent 45%),
         var(--fondo);
     background-attachment: fixed;
     color: var(--texto);
@@ -79,7 +78,7 @@ p {
     justify-content: space-around;
     padding: 10px 0;
     padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-    background: rgba(14, 14, 30, 0.92);
+    background: rgba(18, 20, 15, 0.92);
     backdrop-filter: blur(10px);
     border-top: 1px solid var(--borde);
     box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.5);
@@ -121,8 +120,8 @@ p {
 
 .c-card:hover {
     transform: translateY(-4px);
-    border-color: var(--maldito);
-    box-shadow: 0 0 22px rgba(124, 58, 237, 0.4);
+    border-color: var(--infinito);
+    box-shadow: 0 0 22px rgba(201, 162, 39, 0.35);
 }
 
 .c-card img {
@@ -169,7 +168,7 @@ p {
 input:focus, select:focus, textarea:focus {
     outline: none;
     border-color: var(--infinito);
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.25);
 }
 
 label {

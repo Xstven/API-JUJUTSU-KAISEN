@@ -2,7 +2,6 @@
   max-width: 520px;
 }
 
-/* Selectores con buscador */
 .duelo-selects {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -33,7 +32,7 @@
   color: var(--texto-suave);
 }
 
-.sel-a .duelo-input:focus { border-color: var(--infinito); }
+.sel-a .duelo-input:focus { border-color: var(--maldito); }
 .sel-b .duelo-input:focus { border-color: var(--sukuna); }
 
 .duelo-lista {
@@ -72,7 +71,7 @@
 
 .duelo-lista li:hover,
 .duelo-lista li.activo {
-  background: rgba(124, 58, 237, 0.25);
+  background: rgba(95, 122, 69, 0.3);
 }
 
 .duelo-lista li img,
@@ -119,7 +118,6 @@
   color: var(--texto-suave);
 }
 
-/* Botones */
 .duelo-botones {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -138,14 +136,14 @@
 
 .duelo-pelear {
   background: linear-gradient(135deg, var(--sukuna), var(--maldito));
-  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 6px 20px rgba(155, 44, 44, 0.4);
   color: #fff;
 }
 
 .duelo-aleatorio {
   border: 1px solid var(--infinito);
-  background: rgba(56, 189, 248, 0.15);
-  color: #bae6fd;
+  background: rgba(201, 162, 39, 0.15);
+  color: #f0dc9a;
 }
 
 .duelo-pelear:hover:not(:disabled),
@@ -166,7 +164,6 @@
   font-weight: 700;
 }
 
-/* Arena */
 .duelo-arena {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -191,7 +188,7 @@
   transition: transform 0.3s, opacity 0.3s, filter 0.3s;
 }
 
-.duelo-luchador.izq { border-color: var(--infinito); animation: entra-izq 0.4s ease; }
+.duelo-luchador.izq { border-color: var(--maldito); animation: entra-izq 0.4s ease; }
 .duelo-luchador.der { border-color: var(--sukuna); animation: entra-der 0.4s ease; }
 
 .duelo-luchador img,
@@ -225,8 +222,8 @@
 
 .duelo-luchador.gana {
   transform: scale(1.06);
-  box-shadow: 0 0 28px rgba(250, 204, 21, 0.55);
-  border-color: #facc15;
+  box-shadow: 0 0 28px rgba(224, 184, 58, 0.55);
+  border-color: #e0b83a;
 }
 
 .duelo-luchador.pierde {
@@ -235,7 +232,6 @@
   transform: scale(0.95);
 }
 
-/* Resultado */
 .duelo-resultado {
   padding: 16px;
   background: var(--tarjeta);
@@ -265,7 +261,7 @@
 }
 
 .duelo-fila .mejor {
-  color: #4ade80;
+  color: #8fb574;
   font-weight: 800;
 }
 
@@ -279,7 +275,7 @@
 }
 
 .duelo-barra-a {
-  background: var(--infinito);
+  background: var(--maldito);
   transition: width 0.6s ease;
 }
 
@@ -290,10 +286,10 @@
 .duelo-veredicto {
   margin: 14px 0 6px;
   padding: 12px;
-  border: 1px solid rgba(250, 204, 21, 0.5);
+  border: 1px solid rgba(224, 184, 58, 0.5);
   border-radius: 12px;
-  background: rgba(250, 204, 21, 0.12);
-  color: #fde68a;
+  background: rgba(224, 184, 58, 0.12);
+  color: #f0dc9a;
   text-align: center;
   font-size: 1.1rem;
   font-weight: 800;

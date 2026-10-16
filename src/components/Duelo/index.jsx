@@ -1,32 +1,40 @@
 import { useEffect, useState } from 'react'
-import { getPersonajes } from '../../api'
+import { getTitanes } from '../../api'
 import './style.css'
-
-// De menor a mayor nivel
-const ORDEN = [
-  'sin grado', 'grade 4', 'grade 3', 'grade 2', 'semi-grade 1',
-  'grade 1', 'semi-special grade', 'special grade',
-]
 
 const MAX_VISIBLES = 60
 
-const nivel = (p) => {
-  const i = ORDEN.indexOf(p.gradeName.toLowerCase())
-  return i === -1 ? 0 : i
-}
+// Estadísticas del 1 al 10 definidas a mano según lo que muestra la serie.
+// Es una valoración propia: no viene de la API.
+const ESTADISTICAS = [
+  { patron: /founding/i,     fuerza: 10, defensa: 9,  velocidad: 6,  habilidad: 10 },
+  { patron: /war\s*hammer/i, fuerza: 8,  defensa: 8,  velocidad: 5,  habilidad: 9 },
+  { patron: /attack/i,       fuerza: 7,  defensa: 6,  velocidad: 8,  habilidad: 9 },
+  { patron: /colossal/i,     fuerza: 9,  defensa: 7,  velocidad: 2,  habilidad: 9 },
+  { patron: /armored/i,      fuerza: 8,  defensa: 10, velocidad: 5,  habilidad: 7 },
+  { patron: /beast/i,        fuerza: 8,  defensa: 6,  velocidad: 6,  habilidad: 8 },
+  { patron: /female/i,       fuerza: 7,  defensa: 7,  velocidad: 9,  habilidad: 8 },
+  { patron: /jaw/i,          fuerza: 6,  defensa: 5,  velocidad: 10, habilidad: 6 },
+  { patron: /cart/i,         fuerza: 4,  defensa: 4,  velocidad: 7,  habilidad: 6 },
+]
 
-// Fórmula propia del duelo
-const poder = (p) =>
-  nivel(p) * 12 + p.cursedTechniques.length * 3 + (p.domainExpansion ? 6 : 0)
+const SIN_DATOS = { fuerza: 5, defensa: 5, velocidad: 5, habilidad: 5 }
+
+const stats = (t) => ESTADISTICAS.find((e) => e.patron.test(t.name)) ?? SIN_DATOS
+
+const poder = (t) => {
+  const s = stats(t)
+  return s.fuerza + s.defensa + s.velocidad + s.habilidad
+}
 
 // Selector con buscador: abre la lista completa y filtra al escribir
 function Selector({ lista, valor, onElegir, placeholder, clase }) {
   const [abierto, setAbierto] = useState(false)
   const [texto, setTexto] = useState('')
 
-  const elegido = lista.find((p) => p.id === valor)
+  const elegido = lista.find((t) => t.id === valor)
   const q = texto.trim().toLowerCase()
-  const filtrados = q ? lista.filter((p) => p.name.toLowerCase().includes(q)) : lista
+  const filtrados = q ? lista.filter((t) => t.name.toLowerCase().includes(q)) : lista
   const visibles = filtrados.slice(0, MAX_VISIBLES)
 
   const abrir = () => {
@@ -34,8 +42,8 @@ function Selector({ lista, valor, onElegir, placeholder, clase }) {
     setAbierto(true)
   }
 
-  const elegir = (p) => {
-    onElegir(p.id)
+  const elegir = (t) => {
+    onElegir(t.id)
     setAbierto(false)
     setTexto('')
   }
@@ -69,15 +77,15 @@ function Selector({ lista, valor, onElegir, placeholder, clase }) {
 
       {abierto && (
         <ul className="duelo-lista" onMouseDown={(e) => e.preventDefault()}>
-          {visibles.map((p) => (
+          {visibles.map((t) => (
             <li
-              key={p.id}
-              className={p.id === valor ? 'activo' : ''}
-              onClick={() => elegir(p)}
+              key={t.id}
+              className={t.id === valor ? 'activo' : ''}
+              onClick={() => elegir(t)}
             >
-              {p.image ? <img src={p.image} alt="" loading="lazy" /> : <i />}
-              <span>{p.name}</span>
-              <small>{p.gradeName}</small>
+              {t.image ? <img src={t.image} alt="" loading="lazy" /> : <i />}
+              <span>{t.name}</span>
+              <small>{t.height ?? t.allegiance ?? ''}</small>
             </li>
           ))}
           {visibles.length === 0 && <li className="duelo-vacio">Sin resultados</li>}
@@ -92,12 +100,12 @@ function Selector({ lista, valor, onElegir, placeholder, clase }) {
   )
 }
 
-function Luchador({ p, lado, estado }) {
+function Luchador({ t, lado, estado }) {
   return (
     <div className={`duelo-luchador ${lado} ${estado}`}>
-      {p.image ? <img src={p.image} alt={p.name} /> : <div className="duelo-sinfoto">?</div>}
-      <h3>{p.name}</h3>
-      <span>{p.gradeName}</span>
+      {t.image ? <img src={t.image} alt={t.name} /> : <div className="duelo-sinfoto">?</div>}
+      <h3>{t.name}</h3>
+      <span>{t.herederoActual ? `Portador: ${t.herederoActual.name}` : 'Sin portador'}</span>
     </div>
   )
 }
@@ -114,19 +122,28 @@ function Fila({ etiqueta, a, b, ta = a, tb = b }) {
 
 function Duelo() {
   const [lista, setLista] = useState([])
+  const [error, setError] = useState(null)
   const [idA, setIdA] = useState(null)
   const [idB, setIdB] = useState(null)
   const [pelea, setPelea] = useState(false)
 
   useEffect(() => {
-    getPersonajes()
-      .then(setLista)
-      .catch((error) => console.error('Error:', error))
+    getTitanes()
+      .then((titanes) => {
+        titanes.forEach((t) => {
+          if (stats(t) === SIN_DATOS) console.warn('Titán sin estadísticas:', t.name)
+        })
+        setLista(titanes)
+      })
+      .catch((e) => {
+        console.error('Error:', e)
+        setError('No se pudieron cargar los titanes')
+      })
   }, [])
 
   const ordenados = [...lista].sort((x, y) => x.name.localeCompare(y.name))
-  const a = lista.find((p) => p.id === idA)
-  const b = lista.find((p) => p.id === idB)
+  const a = lista.find((t) => t.id === idA)
+  const b = lista.find((t) => t.id === idB)
   const mismo = a && b && a.id === b.id
   const listos = a && b && !mismo
 
@@ -149,18 +166,19 @@ function Duelo() {
   const estadoA = !pelea ? '' : ganador === null ? 'empate' : ganador === a ? 'gana' : 'pierde'
   const estadoB = !pelea ? '' : ganador === null ? 'empate' : ganador === b ? 'gana' : 'pierde'
 
+  if (error) return <p className="c-estado">{error}</p>
   if (lista.length === 0) return <p className="c-estado">Cargando...</p>
 
   return (
     <div className="c-page duelo">
-      <h1>Duelo</h1>
+      <h1>Duelo de Titanes</h1>
 
       <div className="duelo-selects">
         <Selector
           lista={ordenados}
           valor={idA}
           onElegir={elegirA}
-          placeholder="Personaje 1"
+          placeholder="Titán 1"
           clase="sel-a"
         />
         <span className="duelo-vs">VS</span>
@@ -168,7 +186,7 @@ function Duelo() {
           lista={ordenados}
           valor={idB}
           onElegir={elegirB}
-          placeholder="Personaje 2"
+          placeholder="Titán 2"
           clase="sel-b"
         />
       </div>
@@ -182,27 +200,22 @@ function Duelo() {
         </button>
       </div>
 
-      {mismo && <p className="duelo-aviso">Elige dos personajes distintos.</p>}
+      {mismo && <p className="duelo-aviso">Elige dos titanes distintos.</p>}
 
       {listos && (
         <section className="duelo-arena" key={`${a.id}-${b.id}-${pelea}`}>
-          <Luchador p={a} lado="izq" estado={estadoA} />
+          <Luchador t={a} lado="izq" estado={estadoA} />
           <div className="duelo-centro">VS</div>
-          <Luchador p={b} lado="der" estado={estadoB} />
+          <Luchador t={b} lado="der" estado={estadoB} />
         </section>
       )}
 
       {listos && pelea && (
         <section className="duelo-resultado">
-          <Fila etiqueta="Grado" a={nivel(a)} b={nivel(b)} ta={a.gradeName} tb={b.gradeName} />
-          <Fila etiqueta="Técnicas" a={a.cursedTechniques.length} b={b.cursedTechniques.length} />
-          <Fila
-            etiqueta="Dominio"
-            a={a.domainExpansion ? 1 : 0}
-            b={b.domainExpansion ? 1 : 0}
-            ta={a.domainExpansion ? 'Sí' : 'No'}
-            tb={b.domainExpansion ? 'Sí' : 'No'}
-          />
+          <Fila etiqueta="Fuerza" a={stats(a).fuerza} b={stats(b).fuerza} />
+          <Fila etiqueta="Defensa" a={stats(a).defensa} b={stats(b).defensa} />
+          <Fila etiqueta="Velocidad" a={stats(a).velocidad} b={stats(b).velocidad} />
+          <Fila etiqueta="Habilidad" a={stats(a).habilidad} b={stats(b).habilidad} />
           <Fila etiqueta="Poder" a={pa} b={pb} />
 
           <div className="duelo-barra">
@@ -214,7 +227,7 @@ function Duelo() {
             {ganador ? `¡Gana ${ganador.name}!` : '¡Empate!'}
           </p>
           <p className="duelo-formula">
-            Poder = nivel de grado × 12 + técnicas × 3 + 6 si tiene expansión de dominio
+            Poder = fuerza + defensa + velocidad + habilidad (cada una de 1 a 10, valoradas según la serie)
           </p>
         </section>
       )}

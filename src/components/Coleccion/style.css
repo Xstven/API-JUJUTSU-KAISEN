@@ -51,7 +51,7 @@
   border: 0;
   border-radius: 14px;
   background: var(--degradado);
-  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.45);
+  box-shadow: 0 6px 20px rgba(95, 122, 69, 0.45);
   color: #fff;
   font: inherit;
   font-weight: 700;
@@ -63,7 +63,7 @@
 
 .coleccion-boton:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(124, 58, 237, 0.6);
+  box-shadow: 0 10px 26px rgba(95, 122, 69, 0.6);
 }
 
 .coleccion-boton:active:not(:disabled) {
@@ -116,8 +116,8 @@
 
 .coleccion-nuevo.repetido {
   border-color: var(--sukuna);
-  background: rgba(239, 68, 68, 0.12);
-  color: #fca5a5;
+  background: rgba(155, 44, 44, 0.18);
+  color: #e2a1a1;
 }
 
 .coleccion-nuevo p {

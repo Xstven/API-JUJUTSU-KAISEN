@@ -103,7 +103,6 @@
   font-size: 0.9rem;
 }
 
-/* Acciones: corazón + compartir */
 .c-acciones {
   display: flex;
   justify-content: center;
@@ -116,16 +115,16 @@
   display: inline-block;
   margin: 0;
   padding: 10px 28px;
-  border: 1px solid rgba(239, 68, 68, 0.5);
+  border: 1px solid rgba(155, 44, 44, 0.6);
   border-radius: 999px;
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(155, 44, 44, 0.18);
   font-size: 1.4rem;
   cursor: pointer;
   transition: transform 0.15s, background 0.2s;
 }
 
 .c-fav:hover {
-  background: rgba(239, 68, 68, 0.3);
+  background: rgba(155, 44, 44, 0.35);
   transform: scale(1.1);
 }
 
